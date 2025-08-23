@@ -69,13 +69,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd app/emoji-search/ && npm install
+          cd app/emoji-search && pwd
 
-      - name: Build react app
-        run: |
-          cd app/emoji-search/ && npm run build
+      # - name: Build react app
+      #   run: |
+      #     cd app/emoji-search/ && npm run build
       
-      - name: Deploy to s3 bucket
-        run: |
-          cd app/emoji-search/
-          aws s3 sync build/ s3://ooh-demo-react-bucket --delete
+      # - name: Deploy to s3 bucket
+      #   run: |
+      #     cd app/emoji-search/
+      #     aws s3 sync build/ s3://ooh-demo-react-bucket --delete
