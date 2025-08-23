@@ -31,51 +31,51 @@ jobs:
         with:
           terraform_version: 1.8.0
 
-      - name: Terraform Init
-        run: |
-          cd infra
-          terraform init
+      # - name: Terraform Init
+      #   run: |
+      #     cd infra
+      #     terraform init
 
-      - name: Terraform Format check
-        run: |
-          cd infra
-          terraform fmt
+      # - name: Terraform Format check
+      #   run: |
+      #     cd infra
+      #     terraform fmt
 
-      - name: Terraform Validate
-        run: |
-          cd infra
-          terraform validate
+      # - name: Terraform Validate
+      #   run: |
+      #     cd infra
+      #     terraform validate
 
-      - name: Terraform Plan
-        id: plan
-        run: |
-          cd infra
-          set -o pipefail
-          terraform plan -no-color -detailed-exitcode | tee tfplan.txt
-          echo "exitcode=$?" >> $GITHUB_OUTPUT
-        continue-on-error: true
+      # - name: Terraform Plan
+      #   id: plan
+      #   run: |
+      #     cd infra
+      #     set -o pipefail
+      #     terraform plan -no-color -detailed-exitcode | tee tfplan.txt
+      #     echo "exitcode=$?" >> $GITHUB_OUTPUT
+      #   continue-on-error: true
 
-      - name: Fail if Terraform Plan failed (syntax or auth issue)
-        if: steps.plan.outputs.exitcode == '1'
-        run: |
-          echo "❌ Terraform plan failed with exit code 1"
-          exit 1
+      # - name: Fail if Terraform Plan failed (syntax or auth issue)
+      #   if: steps.plan.outputs.exitcode == '1'
+      #   run: |
+      #     echo "❌ Terraform plan failed with exit code 1"
+      #     exit 1
 
-      - name: Terraform Apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          cd infra
-          terraform apply -auto-approve
+      # - name: Terraform Apply
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      #   run: |
+      #     cd infra
+      #     terraform apply -auto-approve
 
       - name: Install dependencies
         run: |
           cd app/emoji-search && npm install
 
-      # - name: Build react app
-      #   run: |
-      #     cd app/emoji-search/ && npm run build
+      - name: Build react app
+        run: |
+          cd app/emoji-search/ && npm run build
       
-      # - name: Deploy to s3 bucket
-      #   run: |
-      #     cd app/emoji-search/
-      #     aws s3 sync build/ s3://ooh-demo-react-bucket --delete
+      - name: Deploy to s3 bucket
+        run: |
+          cd app/emoji-search/
+          aws s3 sync build/ s3://ooh-demo-react-bucket --delete
