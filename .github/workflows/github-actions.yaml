@@ -73,6 +73,7 @@ jobs:
 
       - name: Build react app
         run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
           cd app/emoji-search && npm run build
       
       - name: Deploy to s3 bucket
