@@ -69,7 +69,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd app/emoji-search && pwd
+          cd app/emoji-search && npm install
 
       # - name: Build react app
       #   run: |
