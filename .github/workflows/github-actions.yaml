@@ -43,13 +43,13 @@ jobs:
           cd infra
           terraform validate
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: |
-      #     set -o pipefail
-      #     terraform plan -no-color -detailed-exitcode | tee tfplan.txt
-      #     echo "exitcode=$?" >> $GITHUB_OUTPUT
-      #   continue-on-error: true
+      - name: Terraform Plan
+        id: plan
+        run: |
+          set -o pipefail
+          terraform plan -no-color -detailed-exitcode | tee tfplan.txt
+          echo "exitcode=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
 
       # - name: Capture Plan Exit Code
       #   id: check_plan
