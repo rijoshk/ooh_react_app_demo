@@ -46,6 +46,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |
+          cd infra
           set -o pipefail
           terraform plan -no-color -detailed-exitcode | tee tfplan.txt
           echo "exitcode=$?" >> $GITHUB_OUTPUT
