@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  terraform:
+  build-and-deploy:
     name: Terraform
     runs-on: ubuntu-latest
 
@@ -31,41 +31,41 @@ jobs:
         with:
           terraform_version: 1.8.0
 
-      # - name: Terraform Init
-      #   run: |
-      #     cd infra
-      #     terraform init
+      - name: Terraform Init
+        run: |
+          cd infra
+          terraform init
 
-      # - name: Terraform Format check
-      #   run: |
-      #     cd infra
-      #     terraform fmt
+      - name: Terraform Format check
+        run: |
+          cd infra
+          terraform fmt
 
-      # - name: Terraform Validate
-      #   run: |
-      #     cd infra
-      #     terraform validate
+      - name: Terraform Validate
+        run: |
+          cd infra
+          terraform validate
 
-      # - name: Terraform Plan
-      #   id: plan
-      #   run: |
-      #     cd infra
-      #     set -o pipefail
-      #     terraform plan -no-color -detailed-exitcode | tee tfplan.txt
-      #     echo "exitcode=$?" >> $GITHUB_OUTPUT
-      #   continue-on-error: true
+      - name: Terraform Plan
+        id: plan
+        run: |
+          cd infra
+          set -o pipefail
+          terraform plan -no-color -detailed-exitcode | tee tfplan.txt
+          echo "exitcode=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
 
-      # - name: Fail if Terraform Plan failed (syntax or auth issue)
-      #   if: steps.plan.outputs.exitcode == '1'
-      #   run: |
-      #     echo "❌ Terraform plan failed with exit code 1"
-      #     exit 1
+      - name: Fail if Terraform Plan failed (syntax or auth issue)
+        if: steps.plan.outputs.exitcode == '1'
+        run: |
+          echo "❌ Terraform plan failed with exit code 1"
+          exit 1
 
-      # - name: Terraform Apply
-      #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      #   run: |
-      #     cd infra
-      #     terraform apply -auto-approve
+      - name: Terraform Apply
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          cd infra
+          terraform apply -auto-approve
 
       - name: Install dependencies
         run: |
