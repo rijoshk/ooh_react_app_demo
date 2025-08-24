@@ -69,14 +69,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd app/emoji-search && npm install
+          cd app/emoji-search-master && npm install
 
       - name: Build react app
         run: |
           export NODE_OPTIONS=--openssl-legacy-provider
-          cd app/emoji-search && npm run build
+          cd app/emoji-search-master && npm run build
       
       - name: Deploy to s3 bucket
         run: |
-          cd app/emoji-search
+          cd app/emoji-search-master
           aws s3 sync build s3://ooh-demo-react-bucket --delete
